@@ -1,13 +1,13 @@
-let beginner;
-let intermediate;
-let advanced;
-let fullList;
-
-let currentRow = 0; let nextRowBlock = 0; let remNotification = 0;
-
-let gameFin = 0;
+console.log('>>> executing game.js');
 
 let maxBlock = 5;
+let gameFin = 0;
+let currentRow = 0; let nextRowBlock = 0; let remNotification = 0;
+
+// let beginner;
+// let intermediate;
+// let advanced;
+// let fullList;
 
 // https://codeburst.io/javascript-double-equals-vs-triple-equals-61d4ce5a121a
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -19,34 +19,10 @@ let container = document.createElement('div');
 container.id = 'container';
 document.body.append(container);
 
-startMenu();
+console.log('>> call to gameStart');
+gameStart();
+console.log('<< call to gameStart');
 
-function startMenu() {
-	if (document.getElementById('wordscript') != null) {
-		document.getElementById('wordscript').remove();
-	}
-	let script = document.createElement('script');
-	script.id = 'wordscript';
-	script.src = './assets/js/words/' + maxBlock + '.js';
-	document.body.prepend(script);
-	setGlobal();
-	container.innerHTML = '';
-	addLogo();
-
-	// TO DO What does this section do that blocks execution?
-	let menu = document.createElement('div');
-	menu.id = 'menu';
-
-	let menuBtn = document.createElement('button');
-	menuBtn.className = 'menuBtn';
-	menuBtn.innerText = 'start game';
-	menuBtn.j = 0;
-
-	menuBtn.addEventListener("click", menuClick);
-	menu.append(menuBtn);
-
-	container.append(menu);
-}
 
 function openModal(type, notification) {
 	let modal = document.createElement('div');
@@ -85,11 +61,9 @@ function openModal(type, notification) {
 	modal.prepend(modalClose);
 }
 
-function openWindow(url, windowName) {
-	window.open(url, windowName, 'width=550,height=450,left=150,top=200,toolbar=0,status=0,data-action=share/whatsapp/share')
-}
-
 function addLogo() {
+	console.log('> addLogo()');
+
 	let logo = document.createElement('div');
 	logo.className = 'logo';
 	logo.addEventListener("click", logoClick);
@@ -104,31 +78,37 @@ function addLogo() {
 	}
 
 	container.append(logo);
+	console.log('< addLogo()');
 }
 
 function setGlobal() {
-
+	console.log('> setGlobal()');
 	gameFin = 0;
 	currentRow = 0;
 	nextRowBlock = 0;
 	remNotification = 0;
+	console.log('< setGlobal()');
 }
 
 
 
 function gameOver() {
+	console.log('> gameOver()');
+
 	gameFin = 1;
 	document.removeEventListener('keyup', deleteClick, false);
 	document.removeEventListener('keyup', keyPress, false);
 	document.removeEventListener('keyup', restart, false);
 	document.removeEventListener('click', logoClick, false);
-	document.removeEventListener('click', menuClick, false);
 	document.removeEventListener('click', enterClick, false);
 	document.removeEventListener('click', levelModal, false);
 	document.removeEventListener('click', closeModal, false);
+
+	console.log('> gameOver()');
 }
 
 function gameStart() {
+	console.log('> gameStart()');
 	setGlobal();
 	container.innerHTML = '';
 	// let wordType = (level == 'beginner') ? beginner : ((level == 'intermediate') ? intermediate : ((level == 'advanced') ? advanced : ((level == 'godmode') ? fullList : custom)));
@@ -136,7 +116,7 @@ function gameStart() {
 	console.log(advanced.length, wordType.length);
 	let rand = Math.floor(Math.random() * wordType.length);
 	chosenWord = wordType[rand].toUpperCase();
-	console.log(chosenWord)
+	console.log(chosenWord);
 	addLogo();
 
 	let navBar = document.createElement('div');
@@ -172,12 +152,12 @@ function gameStart() {
 	notification.innerText = 'Start guessing!'
 	container.append(notification);
 
-	let keyLayoutTop = 'ABCDEFGHIJ';
-	let keyLayoutMid = 'KLMNOPQRS';
-	let keyLayoutBot = 'TUVWXYZ';
-	// let keyLayoutTop = 'QWERTYUIOP';
-	// let keyLayoutMid = 'ASDFGHJKL';
-	// let keyLayoutBot = 'ZXCVBNM';
+	// let keyLayoutTop = 'ABCDEFGHIJ';
+	// let keyLayoutMid = 'KLMNOPQRS';
+	// let keyLayoutBot = 'TUVWXYZ';
+	let keyLayoutTop = 'QWERTYUIOP';
+	let keyLayoutMid = 'ASDFGHJKL';
+	let keyLayoutBot = 'ZXCVBNM';
 
 	let keyboard = document.createElement('div');
 	keyboard.id = 'keyboard';
@@ -211,12 +191,13 @@ function gameStart() {
 
 	container.append(keyboard);
 
-	// addSocial(container);
-
 	document.addEventListener('keyup', keyPress);
+	console.log('< gameStart()');
 }
 
 function keyPress(event) {
+	console.log(`<> keyPress(${event.key})`);
+
 	if (gameFin == 0) {
 		let alphabet = 'abcdefghijklmnopqrstuvwxyz';
 		let wordRow = document.getElementsByClassName('row')[currentRow];
@@ -227,7 +208,8 @@ function keyPress(event) {
 			}
 		}
 		if (event.key === 'Enter') {
-			submitWord(wordRow, keyPress);
+			
+			submitWord(wordRow);
 		}
 		if (event.key === 'Backspace') {
 			deleteLetter(rowBlockEl);
@@ -235,8 +217,8 @@ function keyPress(event) {
 	}
 }
 
-
 function enterClick() {
+	console.log('<> enterClick()');
 	if (gameFin == 0) {
 		let wordRow = document.getElementsByClassName('row')[currentRow];
 		let rowBlockEl = wordRow.childNodes;
@@ -245,14 +227,10 @@ function enterClick() {
 }
 
 function logoClick(event) {
+	console.log('<> logoClick()');
+
 	container.innerHTML = '';
 	gameStart()
-	// startMenu();
-}
-
-function menuClick(event) {
-
-		gameStart();
 }
 
 function restart(event) {
@@ -312,7 +290,7 @@ function count(str, find) {
 function checkAnswer(wordRow, answer) {
 	let score = 0;
 
-	console.log(wordRow, answer)
+	console.log(wordRow, answer);
 	let answerArray = [];
 
 	for (i = 0; i < answer.length; i++) {
@@ -378,7 +356,6 @@ function checkAnswer(wordRow, answer) {
 	else if (currentRow == 5) {
 		let url = '<a href="https://duckduckgo.com/?q=%22' + chosenWord + '%22+%22definition%22&ia=definition" target="_blank">' + chosenWord + '</a>';
 		let notification = url;
-		// currentStreak = 0;
 		gameOver();
 
 		setTimeout(function () {
@@ -392,8 +369,18 @@ function checkAnswer(wordRow, answer) {
 }
 
 function submitWord(wordRow) {
+	console.log('<> submitWord()');
 	if (nextRowBlock > 0 && nextRowBlock % maxBlock == 0) {
-		let answer = wordRow.innerText.replace(/[\n\r]/g, '');
+
+		console.log(`innerText ${wordRow.innerText.split('\n')}`);
+		console.log(wordRow.innerText.split('\n').join(''), 'joined');
+
+		// let answer = wordRow.innerText.replace(/[\n\r]/g, '');
+
+		let answer = wordRow.innerText.split('\n').join('');
+
+		console.log(answer);
+
 		if (fullList.includes(answer)) {
 			checkAnswer(wordRow, answer);
 		} else {
@@ -419,6 +406,7 @@ function addKeys(el, layout, keyClass) {
 }
 
 function addLetter(rowBlockEl, letter) {
+	console.log(`<> addLetter(${rowBlockEl}, ${letter})`);
 	if (remNotification == 0) {
 		remNotification = 1;
 		document.getElementById('notification').innerText = '';
@@ -428,3 +416,5 @@ function addLetter(rowBlockEl, letter) {
 		nextRowBlock++;
 	}
 }
+
+console.log('<<< end of game.js');
