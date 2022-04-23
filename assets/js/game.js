@@ -10,9 +10,35 @@ let currentRow = 0; let nextRowBlock = 0; let remNotification = 0;
 
 const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
-let container = document.createElement('div');
-container.id = 'container';
-document.body.append(container);
+let containerA = document.createElement('div');
+containerA.id = 'containerA';
+document.body.append(containerA);
+
+let containerB = document.createElement('div');
+containerB.id = 'containerB';
+document.body.append(containerB);
+
+let textList = document.createElement('div');
+textList.className = 'textBoxy';
+textList.id = 'noID';
+textList.textContent = '';
+textList.contentEditable = 'true';
+
+// https://stackoverflow.com/questions/9980416/how-can-i-insert-new-line-carriage-returns-into-an-element-textcontent
+textList.setAttribute('style', 'white-space: pre;');
+
+let pre = ''
+
+advanced.forEach(element => {
+	if (element[0] === 'Z') {
+		textList.textContent += pre + element;
+		pre = '\n'
+	};
+});
+
+// textList.innerText = 'Nothing to see guessing!\nMore\nMore\nAgain\nAgain'
+
+containerB.append(textList);
 
 gameStart();
 
@@ -33,14 +59,14 @@ function openModal(type, notification) {
 	}
 
 
-	container.prepend(modal);
+	containerA.prepend(modal);
 	setTimeout(function () {
 		modal.style.cssText = 'opacity: 1';
 	}, 1);
 
 	let shadowBack = document.createElement('div');
 	shadowBack.id = 'shadowBack';
-	container.prepend(shadowBack);
+	containerA.prepend(shadowBack);
 	setTimeout(function () {
 		shadowBack.style.cssText = 'opacity: .35';
 	}, 1);
@@ -70,7 +96,7 @@ function addLogo() {
 		logo.append(logoSpan);
 	}
 
-	container.append(logo);
+	containerA.append(logo);
 	console.log('< addLogo()');
 }
 
@@ -103,7 +129,7 @@ function gameOver() {
 function gameStart() {
 	console.log('> gameStart()');
 	setGlobal();
-	container.innerHTML = '';
+	containerA.innerHTML = '';
 	// let wordType = (level == 'beginner') ? beginner : ((level == 'intermediate') ? intermediate : ((level == 'advanced') ? advanced : ((level == 'godmode') ? fullList : custom)));
 	let wordType = advanced;
 
@@ -126,7 +152,7 @@ function gameStart() {
 		openModal('charSelect');
 	})
 	navBar.append(levelSelect);
-	container.append(navBar);
+	containerA.append(navBar);
 
 	let gameArea = document.createElement('div');
 	gameArea.className = 'game_area';
@@ -140,12 +166,12 @@ function gameStart() {
 		}
 		gameArea.append(row);
 	}
-	container.append(gameArea);
+	containerA.append(gameArea);
 
 	let notification = document.createElement('div');
 	notification.id = 'notification';
 	notification.innerText = 'Start guessing!'
-	container.append(notification);
+	containerA.append(notification);
 
 	// let keyLayoutTop = 'ABCDEFGHIJ';
 	// let keyLayoutMid = 'KLMNOPQRS';
@@ -184,7 +210,7 @@ function gameStart() {
 	botKeys.append(enterKey);
 	keyboard.append(botKeys);
 
-	container.append(keyboard);
+	containerA.append(keyboard);
 
 	document.addEventListener('keyup', keyPress);
 	console.log('< gameStart()');
@@ -224,7 +250,7 @@ function enterClick() {
 function logoClick(event) {
 	console.log('<> logoClick()');
 
-	container.innerHTML = '';
+	containerA.innerHTML = '';
 	gameStart()
 }
 
