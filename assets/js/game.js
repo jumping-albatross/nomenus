@@ -24,6 +24,8 @@ textList.id = 'noID';
 textList.textContent = '';
 textList.contentEditable = 'true';
 
+// https://github.com/AnsonLai/OctordleReformat/
+// https://stackoverflow.com/questions/5754712/add-characters-to-a-string-in-javascript
 // https://stackoverflow.com/questions/9980416/how-can-i-insert-new-line-carriage-returns-into-an-element-textcontent
 textList.setAttribute('style', 'white-space: pre;');
 
