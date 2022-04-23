@@ -1,13 +1,8 @@
-console.log('>>> executing game.js');
+console.log('>>> game.js');
 
 let maxBlock = 5;
 let gameFin = 0;
 let currentRow = 0; let nextRowBlock = 0; let remNotification = 0;
-
-// let beginner;
-// let intermediate;
-// let advanced;
-// let fullList;
 
 // https://codeburst.io/javascript-double-equals-vs-triple-equals-61d4ce5a121a
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -19,9 +14,7 @@ let container = document.createElement('div');
 container.id = 'container';
 document.body.append(container);
 
-console.log('>> call to gameStart');
 gameStart();
-console.log('<< call to gameStart');
 
 
 function openModal(type, notification) {
@@ -113,7 +106,9 @@ function gameStart() {
 	container.innerHTML = '';
 	// let wordType = (level == 'beginner') ? beginner : ((level == 'intermediate') ? intermediate : ((level == 'advanced') ? advanced : ((level == 'godmode') ? fullList : custom)));
 	let wordType = advanced;
+
 	console.log(advanced.length, wordType.length);
+
 	let rand = Math.floor(Math.random() * wordType.length);
 	chosenWord = wordType[rand].toUpperCase();
 	console.log(chosenWord);
@@ -208,7 +203,7 @@ function keyPress(event) {
 			}
 		}
 		if (event.key === 'Enter') {
-			
+
 			submitWord(wordRow);
 		}
 		if (event.key === 'Backspace') {
@@ -417,4 +412,4 @@ function addLetter(rowBlockEl, letter) {
 	}
 }
 
-console.log('<<< end of game.js');
+console.log('<<< game.js');
